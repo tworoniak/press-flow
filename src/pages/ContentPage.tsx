@@ -22,7 +22,7 @@ import {
   useUpdateContentItem,
 } from '../features/content/hooks/useContentMutations';
 import type { ContentFormValues } from '../features/content/types/contentForm';
-import { useTeam } from '../features/team/hooks/useTeams';
+import { useTeam } from '../features/team/hooks/useTeam';
 
 export default function ContentPage() {
   const { data: content = [], isLoading, isError } = useContent();

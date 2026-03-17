@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 
 import { useContentItem } from '../../features/content/hooks/useContent';
-import { useTeam } from '../../features/team/hooks/useTeams';
+import { useTeam } from '../../features/team/hooks/useTeam';
 import {
   getContentTypeLabel,
   getPlatformLabel,
