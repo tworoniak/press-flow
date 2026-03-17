@@ -10,6 +10,12 @@ PressFlow focuses on **content lifecycle management**, providing tools for edito
 
 ---
 
+## Screenshots
+
+### Dashboard
+
+![Dashboard Demo](/src/assets/screenshots/pressflow-dashboard-animation.gif)
+
 ## Features
 
 - ### Editorial Dashboard
