@@ -6,6 +6,8 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 import {
   DataGrid,
   type GridColDef,
@@ -13,32 +15,36 @@ import {
 } from '@mui/x-data-grid';
 import { useMemo } from 'react';
 
-import PriorityChip from '../common/PriorityChip';
-import StatusChip from '../common/StatusChip';
 import type { ContentItem } from '../../features/content/types/content';
 import type { TeamMember } from '../../features/team/types/team';
 import {
   getContentTypeLabel,
   getPlatformLabel,
 } from '../../features/content/utils/contentLabels';
+import PriorityChip from '../common/PriorityChip';
+import StatusChip from '../common/StatusChip';
+import ContentMobileList from './ContentMobileList';
 
 type ContentTableProps = {
-  rows: ContentItem[];
+  items: ContentItem[];
   team: TeamMember[];
-  loading?: boolean;
+  isLoading?: boolean;
   onRowClick: (id: string) => void;
   onEditClick: (id: string) => void;
 };
 
 export default function ContentTable({
-  rows,
+  items,
   team,
-  loading = false,
+  isLoading = false,
   onRowClick,
   onEditClick,
 }: ContentTableProps) {
-  const mappedRows = useMemo(() => {
-    return rows.map((item) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+  const rows = useMemo(() => {
+    return items.map((item) => {
       const author = team.find((member) => member.id === item.authorId);
 
       return {
@@ -46,7 +52,18 @@ export default function ContentTable({
         authorName: author?.name ?? 'Unknown',
       };
     });
-  }, [rows, team]);
+  }, [items, team]);
+
+  if (isMobile) {
+    return (
+      <ContentMobileList
+        items={items}
+        team={team}
+        onCardClick={onRowClick}
+        onEditClick={onEditClick}
+      />
+    );
+  }
 
   const columns: GridColDef[] = [
     {
@@ -106,14 +123,14 @@ export default function ContentTable({
       headerName: 'Due Date',
       flex: 1,
       minWidth: 130,
-      valueGetter: (_, row) => row.dueDate ?? 'TBD',
+      valueGetter: (_value, row) => row.dueDate ?? 'TBD',
     },
     {
       field: 'publishDate',
       headerName: 'Publish Date',
       flex: 1,
       minWidth: 140,
-      valueGetter: (_, row) => row.publishDate ?? 'TBD',
+      valueGetter: (_value, row) => row.publishDate ?? 'TBD',
     },
     {
       field: 'actions',
@@ -139,9 +156,9 @@ export default function ContentTable({
   return (
     <Paper sx={{ height: 620, p: 1 }}>
       <DataGrid
-        rows={mappedRows}
+        rows={rows}
         columns={columns}
-        loading={loading}
+        loading={isLoading}
         pageSizeOptions={[5, 10, 25]}
         initialState={{
           pagination: {
