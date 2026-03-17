@@ -1,5 +1,7 @@
 # PressFlow v1.0
 
+[![PressFlow Dashboard](/src/assets/screenshots/pressflow-dashboard.png)](https://pressflow.vercel.app)
+
 **_PressFlow_** is a modern **editorial workflow dashboard** built with **React, TypeScript, and Material UI** for managing content from idea through publication.
 
 The application simulates a real-world **editorial operations platform**, allowing teams to track drafts, manage review stages, visualize publishing pipelines, and monitor upcoming releases across platforms.
