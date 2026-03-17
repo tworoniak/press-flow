@@ -1,4 +1,5 @@
 import { Paper, Stack, Typography } from '@mui/material';
+import { useDroppable } from '@dnd-kit/core';
 
 import type {
   ContentItem,
@@ -21,14 +22,20 @@ export default function KanbanColumn({
   team,
   onCardClick,
 }: KanbanColumnProps) {
+  const { isOver, setNodeRef } = useDroppable({
+    id: title,
+  });
+
   return (
     <Paper
+      ref={setNodeRef}
       sx={{
         minWidth: 320,
         width: 320,
         p: 2,
         borderRadius: 3,
-        bgcolor: 'background.paper',
+        bgcolor: isOver ? 'action.hover' : 'background.paper',
+        transition: 'background-color 0.2s ease',
       }}
     >
       <Stack spacing={2}>
