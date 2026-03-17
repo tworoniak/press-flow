@@ -1,6 +1,7 @@
 import DashboardCustomizeOutlinedIcon from '@mui/icons-material/DashboardCustomizeOutlined';
 import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
 import EventNoteOutlinedIcon from '@mui/icons-material/EventNoteOutlined';
+import ViewKanbanOutlinedIcon from '@mui/icons-material/ViewKanbanOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
 import {
   AppBar,
@@ -22,6 +23,7 @@ const drawerWidth = 240;
 const navItems = [
   { label: 'Dashboard', to: '/', icon: <DashboardCustomizeOutlinedIcon /> },
   { label: 'Content', to: '/content', icon: <EditNoteOutlinedIcon /> },
+  { label: 'Board', to: '/board', icon: <ViewKanbanOutlinedIcon /> },
   { label: 'Calendar', to: '/calendar', icon: <EventNoteOutlinedIcon /> },
 ];
 

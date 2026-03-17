@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import AppShell from '../components/layout/AppShell';
+import BoardPage from '../pages/BoardPage';
 import CalendarPage from '../pages/CalendarPage';
 import ContentPage from '../pages/ContentPage';
 import DashboardPage from '../pages/DashboardPage';
@@ -13,6 +14,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <DashboardPage /> },
       { path: 'content', element: <ContentPage /> },
+      { path: 'board', element: <BoardPage /> },
       { path: 'calendar', element: <CalendarPage /> },
     ],
   },
