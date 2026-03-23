@@ -1,63 +1,67 @@
-import { mockContent } from '../data/mockContent';
 import type { ContentItem } from '../types/content';
 
-const SIMULATED_DELAY_MS = 250;
-
-function delay(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-// In-memory store for the mock phase.
-// Later this file can be swapped to Supabase/API calls.
-let contentStore: ContentItem[] = [...mockContent];
+const API_BASE = '/api/content';
 
 export async function getContentItems(): Promise<ContentItem[]> {
-  await delay(SIMULATED_DELAY_MS);
-  return [...contentStore];
+  const response = await fetch(API_BASE);
+  if (!response.ok) {
+    throw new Error('Failed to fetch content items');
+  }
+  return response.json();
 }
 
 export async function getContentItemById(
   id: string,
 ): Promise<ContentItem | undefined> {
-  await delay(SIMULATED_DELAY_MS);
-  return contentStore.find((item) => item.id === id);
+  const response = await fetch(`${API_BASE}/${id}`);
+  if (response.status === 404) {
+    return undefined;
+  }
+  if (!response.ok) {
+    throw new Error('Failed to fetch content item');
+  }
+  return response.json();
 }
 
 export async function createContentItem(
   input: ContentItem,
 ): Promise<ContentItem> {
-  await delay(SIMULATED_DELAY_MS);
-  contentStore = [input, ...contentStore];
-  return input;
+  const response = await fetch(API_BASE, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(input),
+  });
+  if (!response.ok) {
+    throw new Error('Failed to create content item');
+  }
+  return response.json();
 }
 
 export async function updateContentItem(
   id: string,
   updates: Partial<ContentItem>,
 ): Promise<ContentItem> {
-  await delay(SIMULATED_DELAY_MS);
-
-  const existingItem = contentStore.find((item) => item.id === id);
-
-  if (!existingItem) {
-    throw new Error(`Content item with id "${id}" was not found.`);
+  const response = await fetch(`${API_BASE}/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(updates),
+  });
+  if (!response.ok) {
+    throw new Error('Failed to update content item');
   }
-
-  const updatedItem: ContentItem = {
-    ...existingItem,
-    ...updates,
-    updatedAt: new Date().toISOString(),
-  };
-
-  contentStore = contentStore.map((item) =>
-    item.id === id ? updatedItem : item,
-  );
-
-  return updatedItem;
+  return response.json();
 }
 
 export async function deleteContentItem(id: string): Promise<{ id: string }> {
-  await delay(SIMULATED_DELAY_MS);
-  contentStore = contentStore.filter((item) => item.id !== id);
-  return { id };
+  const response = await fetch(`${API_BASE}/${id}`, {
+    method: 'DELETE',
+  });
+  if (!response.ok) {
+    throw new Error('Failed to delete content item');
+  }
+  return response.json();
 }
